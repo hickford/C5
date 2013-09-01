@@ -19,7 +19,7 @@ namespace C5
         /// </example>
         /// <remarks>
         /// If Log is not set it will return a dummy action
-        /// <c>x => { return; })</c>
+        /// <c>x => { })</c>
         /// eliminating the need for null-reference checks.
         /// </remarks>
         /// <value>
@@ -27,7 +27,7 @@ namespace C5
         /// </value>
         public static Action<string> Log
         {
-            get { return _log ?? (x => { return; }); }
+            get { return _log ?? (x => { }); }
             set { _log = value; }
         }
     }

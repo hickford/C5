@@ -23,21 +23,22 @@ namespace C5.UserGuideExamples
             //   Console.WriteLine(s);
             //   Console.WriteLine("===");
 
-            var sw = Stopwatch.StartNew();
-            var classes = AnagramClasses(words);
+            var stopwatch = Stopwatch.StartNew();
+            const bool unsequenced = true;
+            var classes = AnagramClasses(words, unsequenced);
             var count = 0;
             foreach (var anagramClass in classes)
             {
                 count++;
-                foreach (var s in anagramClass)
+                foreach (var anagram in anagramClass)
                 {
-                    Console.Write(s + " ");
+                    Console.Write(anagram + " ");
                 }
                 Console.WriteLine();
             }
             Console.WriteLine("{0} non-trivial anagram classes", count);
-            sw.Stop();
-            Console.WriteLine(sw.Elapsed);
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
         }
 
         /// <summary>
@@ -127,23 +128,22 @@ namespace C5.UserGuideExamples
         /// not clear ... or is it because unsequenced equality is slow?
         /// </summary>
         /// <param name="words"></param>
+        /// <param name="unsequenced"></param>
         /// <returns></returns>
-        public static IEnumerable<IEnumerable<string>> AnagramClasses(IEnumerable<string> words)
+        public static IEnumerable<IEnumerable<string>> AnagramClasses(IEnumerable<string> words, bool unsequenced)
         {
-            const bool unsequenced = true;
-            IDictionary<TreeBag<char>, TreeSet<string>> classes;
+            IEqualityComparer<TreeBag<char>> comparer;
+            
             if (unsequenced)
             {
-                IEqualityComparer<TreeBag<char>> comparer =
-                    UnsequencedCollectionEqualityComparer<TreeBag<char>, char>.Default;
-                classes = new HashDictionary<TreeBag<char>, TreeSet<string>>(comparer);
+                comparer = UnsequencedCollectionEqualityComparer<TreeBag<char>, char>.Default;
             }
             else
             {
-                IEqualityComparer<TreeBag<char>> comparer =
-                    SequencedCollectionEqualityComparer<TreeBag<char>, char>.Default;
-                classes = new HashDictionary<TreeBag<char>, TreeSet<string>>(comparer);
+                comparer = SequencedCollectionEqualityComparer<TreeBag<char>, char>.Default;
             }
+
+            IDictionary<TreeBag<char>, TreeSet<string>> classes = new HashDictionary<TreeBag<char>, TreeSet<string>>(comparer);
 
             foreach (var word in words)
             {

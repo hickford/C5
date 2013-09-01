@@ -23,21 +23,21 @@ namespace C5.UserGuideExamples
             //   Console.WriteLine(word);
             //   Console.WriteLine("===");
 
-            var sw = Stopwatch.StartNew();
+            var stopwatch = Stopwatch.StartNew();
             var classes = AnagramClasses(words);
             var count = 0;
             foreach (var anagramClass in classes)
             {
                 count++;
-                foreach (var s in anagramClass)
+                foreach (var anagram in anagramClass)
                 {
-                    Console.Write(s + " ");
+                    Console.Write(anagram + " ");
                 }
                 Console.WriteLine();
             }
             Console.WriteLine("{0} non-trivial anagram classes", count);
-            sw.Stop();
-            Console.WriteLine(sw.Elapsed);
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.Elapsed);
         }
 
         /// <summary>
