@@ -1,161 +1,170 @@
-/*
- Copyright (c) 2003-2006 Niels Kokholm and Peter Sestoft
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
- 
- The above copyright notice and this permission notice shall be included in
- all copies or substantial portions of the Software.
- 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE.
-*/
-
-// C5 example: anagrams 2004-08-08, 2004-11-16
-
-// Compile with 
-//   csc /r:C5.dll Anagrams.cs 
-
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;                        // StreamReader, TextReader
-using System.Text;			// Encoding
-using System.Text.RegularExpressions;   // Regex
-using C5;
-using SCG = System.Collections.Generic;
+using System.IO;
+using System.Text;
+using System.Text.RegularExpressions;
 
-namespace Anagrams
+namespace C5.UserGuideExamples
 {
-    class MyTest
+    /// <summary>
+    /// C5 example: anagrams 2004-08-08, 2004-11-16, 2013-09-01
+    /// Compile with csc /r:C5.dll Anagrams.cs 
+    /// </summary>
+    public class Anagrams
     {
-        public static void Main(String[] args)
+        public static void Main(string[] args)
         {
-            Console.OutputEncoding = Encoding.GetEncoding("iso-8859-1");
-            SCG.IEnumerable<String> ss;
-            if (args.Length == 2)
-                ss = ReadFileWords(args[0], int.Parse(args[1]));
-            else
-                ss = args;
-            // foreach (String s in FirstAnagramOnly(ss)) 
+            Console.OutputEncoding = Encoding.UTF8;
+
+            var words = args.Length == 2 ? ReadFileWords(args[0], int.Parse(args[1])) : args;
+
+            // foreach (string s in FirstAnagramOnly(words)) 
             //   Console.WriteLine(s);
             //   Console.WriteLine("===");
+
             var sw = Stopwatch.StartNew();
-            SCG.IEnumerable<SCG.IEnumerable<String>> classes = AnagramClasses(ss);
-            int count = 0;
-            foreach (SCG.IEnumerable<String> anagramClass in classes)
+            var classes = AnagramClasses(words);
+            var count = 0;
+            foreach (var anagramClass in classes)
             {
                 count++;
-                // foreach (String s in anagramClass) 
-                //   Console.Write(s + " ");
-                // Console.WriteLine();
+                foreach (var s in anagramClass)
+                {
+                    Console.Write(s + " ");
+                }
+                Console.WriteLine();
             }
             Console.WriteLine("{0} non-trivial anagram classes", count);
             sw.Stop();
             Console.WriteLine(sw.Elapsed);
         }
 
-        // Read words at most n words from a file
-
-        public static SCG.IEnumerable<String> ReadFileWords(String filename, int n)
+        /// <summary>
+        /// Read at most maximumNumberOfWords words from filename
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <param name="maximumNumberOfWords"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> ReadFileWords(string filename, int maximumNumberOfWords)
         {
-            Regex delim = new Regex("[^a-zæøåA-ZÆØÅ0-9-]+");
-            Encoding enc = Encoding.GetEncoding("iso-8859-1");
-            using (TextReader rd = new StreamReader(filename, enc))
+            var delimiter = new Regex("[^a-zæøåA-ZÆØÅ0-9-]+");
+
+            using (var reader = new StreamReader(filename, Encoding.UTF8))
             {
-                for (String line = rd.ReadLine(); line != null; line = rd.ReadLine())
+                while (!reader.EndOfStream)
                 {
-                    foreach (String s in delim.Split(line))
-                        if (s != "")
-                            yield return s.ToLower();
-                    if (--n == 0)
+                    var line = reader.ReadLine() ?? string.Empty;
+
+                    foreach (var word in delimiter.Split(line))
+                    {
+                        if (!string.IsNullOrWhiteSpace(word))
+                        {
+                            yield return word.ToLower();
+                        }
+                    }
+                    if (--maximumNumberOfWords == 0)
+                    {
                         yield break;
+                    }
                 }
             }
         }
 
-        // From an anagram point of view, a word is just a bag of
-        // characters.  So an anagram class is represented as TreeBag<char>
-        // which permits fast equality comparison -- we shall use them as
-        // elements of hash sets or keys in hash maps.
-
-        public static TreeBag<char> AnagramClass(String s)
+        /// <summary>
+        /// From an anagram point of view, a word is just a bag of characters.  
+        /// So an anagram class is represented as TreeBag{char} which permits fast equality comparison 
+        /// -- we shall use them as elements of hash sets or keys in hash maps.
+        /// </summary>
+        /// <param name="word"></param>
+        /// <returns></returns>
+        public static TreeBag<char> AnagramClass(string word)
         {
-            TreeBag<char> anagram = new TreeBag<char>(SCG.Comparer<char>.Default, EqualityComparer<char>.Default);
-            foreach (char c in s)
-                anagram.Add(c);
+            var anagram = new TreeBag<char>(Comparer<char>.Default, EqualityComparer<char>.Default);
+
+            anagram.AddAll(word.ToCharArray());
+
             return anagram;
         }
 
-        // Given a sequence of strings, return only the first member of each
-        // anagram class.
-
-        public static SCG.IEnumerable<String> FirstAnagramOnly(SCG.IEnumerable<String> ss)
+        /// <summary>
+        /// Given a sequence of strings, return only the first member of each anagram class.
+        /// </summary>
+        /// <param name="words"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> FirstAnagramOnly(System.Collections.Generic.IEnumerable<string> words)
         {
-            SCG.IEqualityComparer<TreeBag<char>> tbh
-              = UnsequencedCollectionEqualityComparer<TreeBag<char>, char>.Default;
-            HashSet<TreeBag<char>> anagrams = new HashSet<TreeBag<char>>(tbh);
-            foreach (String s in ss)
+            IEqualityComparer<TreeBag<char>> comparer = UnsequencedCollectionEqualityComparer<TreeBag<char>, char>.Default;
+
+            var anagrams = new HashSet<TreeBag<char>>(comparer);
+
+            foreach (var word in words)
             {
-                TreeBag<char> anagram = AnagramClass(s);
+                var anagram = AnagramClass(word);
+
                 if (!anagrams.Contains(anagram))
                 {
                     anagrams.Add(anagram);
-                    yield return s;
+
+                    yield return word;
                 }
             }
         }
 
-        // Given a sequence of strings, return all non-trivial anagram
-        // classes.  Should use a *sequenced* equalityComparer on a TreeBag<char>,
-        // obviously: after all, characters can be sorted by ASCII code.  On
-        // 347 000 distinct Danish words this takes 70 cpu seconds, 180 MB
-        // memory, and 263 wall-clock seconds (due to swapping).
-
-        // Using a TreeBag<char> and a sequenced equalityComparer takes 82 cpu seconds
-        // and 180 MB RAM to find the 26,058 anagram classes among 347,000
-        // distinct words.
-
-        // Using an unsequenced equalityComparer on TreeBag<char> or HashBag<char>
-        // makes it criminally slow: at least 1200 cpu seconds.  This must
-        // be because many bags get the same hash code, so that there are
-        // many collisions.  But exactly how the unsequenced equalityComparer works is
-        // not clear ... or is it because unsequenced equality is slow?
-
-        public static SCG.IEnumerable<SCG.IEnumerable<String>> AnagramClasses(SCG.IEnumerable<String> ss)
+        /// <summary>
+        /// Given a sequence of strings, return all non-trivial anagram classes. 
+        /// Should use a *sequenced* equalityComparer on a TreeBag{char},
+        /// obviously: after all, characters can be sorted by ASCII code.  
+        /// On 347,000 distinct Danish words this takes 70 cpu seconds, 180 MB memory, 
+        /// and 263 wall-clock seconds (due to swapping).
+        /// Using a TreeBag{char} and a sequenced equalityComparer takes 82 cpu seconds
+        /// and 180 MB RAM to find the 26,058 anagram classes among 347,000
+        /// distinct words.
+        /// Using an unsequenced equalityComparer on TreeBag{char} or HashBag{char}
+        /// makes it criminally slow: at least 1200 cpu seconds.  This must
+        /// be because many bags get the same hash code, so that there are
+        /// many collisions.  But exactly how the unsequenced equalityComparer works is
+        /// not clear ... or is it because unsequenced equality is slow?
+        /// </summary>
+        /// <param name="words"></param>
+        /// <returns></returns>
+        public static IEnumerable<IEnumerable<string>> AnagramClasses(IEnumerable<string> words)
         {
-            bool unseq = true;
-            IDictionary<TreeBag<char>, TreeSet<String>> classes;
-            if (unseq)
+            const bool unsequenced = true;
+            IDictionary<TreeBag<char>, TreeSet<string>> classes;
+            if (unsequenced)
             {
-                SCG.IEqualityComparer<TreeBag<char>> unsequencedTreeBagEqualityComparer
-            = UnsequencedCollectionEqualityComparer<TreeBag<char>, char>.Default;
-                classes = new HashDictionary<TreeBag<char>, TreeSet<String>>(unsequencedTreeBagEqualityComparer);
+                IEqualityComparer<TreeBag<char>> comparer =
+                    UnsequencedCollectionEqualityComparer<TreeBag<char>, char>.Default;
+                classes = new HashDictionary<TreeBag<char>, TreeSet<string>>(comparer);
             }
             else
             {
-                SCG.IEqualityComparer<TreeBag<char>> sequencedTreeBagEqualityComparer
-            = SequencedCollectionEqualityComparer<TreeBag<char>, char>.Default;
-                classes = new HashDictionary<TreeBag<char>, TreeSet<String>>(sequencedTreeBagEqualityComparer);
+                IEqualityComparer<TreeBag<char>> comparer =
+                    SequencedCollectionEqualityComparer<TreeBag<char>, char>.Default;
+                classes = new HashDictionary<TreeBag<char>, TreeSet<string>>(comparer);
             }
-            foreach (String s in ss)
+
+            foreach (var word in words)
             {
-                TreeBag<char> anagram = AnagramClass(s);
-                TreeSet<String> anagramClass;
+                var anagram = AnagramClass(word);
+
+                TreeSet<string> anagramClass;
+
                 if (!classes.Find(ref anagram, out anagramClass))
-                    classes[anagram] = anagramClass = new TreeSet<String>();
-                anagramClass.Add(s);
+                {
+                    classes[anagram] = anagramClass = new TreeSet<string>();
+                }
+                anagramClass.Add(word);
             }
-            foreach (TreeSet<String> anagramClass in classes.Values)
+
+            foreach (var anagramClass in classes.Values)
+            {
                 if (anagramClass.Count > 1)
+                {
                     yield return anagramClass;
+                }
+            }
         }
     }
 }

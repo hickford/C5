@@ -17,13 +17,14 @@ namespace C5.UserGuideExamples
         {
             Console.OutputEncoding = Encoding.UTF8;
             
-            var strings = args.Length == 2 ? ReadFileWords(args[0], int.Parse(args[1])) : args;
+            var words = args.Length == 2 ? ReadFileWords(args[0], int.Parse(args[1])) : args;
 
             // foreach (string word in FirstAnagramOnly(words)) 
             //   Console.WriteLine(word);
             //   Console.WriteLine("===");
+
             var sw = Stopwatch.StartNew();
-            var classes = AnagramClasses(strings);
+            var classes = AnagramClasses(words);
             var count = 0;
             foreach (var anagramClass in classes)
             {
@@ -94,6 +95,7 @@ namespace C5.UserGuideExamples
         public static IEnumerable<string> FirstAnagramOnly(IEnumerable<string> words)
         {
             var anagrams = new HashSet<HashBag<char>>();
+
             foreach (var word in words)
             {
                 var anagram = AnagramClass(word);
