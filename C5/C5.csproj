@@ -20,6 +20,21 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>4.0</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,8 +79,9 @@
     <Compile Include="comparers\InternalEqualityComparer.cs" />
     <Compile Include="Debug.cs" />
     <Compile Include="Dictionaries.cs" />
-    <Compile Include="Enums.cs" />
+    <Compile Include="enums\EnumerationDirection.cs" />
     <Compile Include="Events.cs" />
+    <Compile Include="enums\EventTypeEnum.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Formatting.cs" />
     <Compile Include="Hashers.cs" />
@@ -78,10 +94,12 @@
     <Compile Include="linkedlists\LinkedList.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="MappedEnumerators.cs" />
+    <Compile Include="enums\MutualViewPosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Random.cs" />
     <Compile Include="Records.cs" />
     <Compile Include="Sorting.cs" />
+    <Compile Include="enums\Speed.cs" />
     <Compile Include="trees\RedBlackTreeBag.cs" />
     <Compile Include="trees\RedBlackTreeDictionary.cs" />
     <Compile Include="trees\RedBlackTreeSet.cs" />
@@ -91,6 +109,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="C5.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

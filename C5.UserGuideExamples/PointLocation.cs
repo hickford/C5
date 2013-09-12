@@ -26,7 +26,6 @@ using SCG = System.Collections.Generic;
 
 namespace PointLocation
 {
-    //public enum Site { Cell,Edge,Outside}
     /// <summary>
     /// A line segment with associated data of type T for the cell 
     /// to its right respectively left.
