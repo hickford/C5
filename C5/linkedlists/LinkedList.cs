@@ -42,7 +42,7 @@ namespace C5
         /// 
         /// </summary>
         /// <value></value>
-        public override EventTypeEnum ListenableEvents { get { return underlying == null ? EventTypeEnum.All : EventTypeEnum.None; } }
+        public override EventType ListenableEvents { get { return underlying == null ? EventType.All : EventType.None; } }
 
         #endregion
 
@@ -876,7 +876,7 @@ namespace C5
         {
             updatecheck();
             insert(i, i == size ? endsentinel : get(i), item);
-            if (ActiveEvents != EventTypeEnum.None)
+            if (ActiveEvents != EventType.None)
                 (underlying ?? this).raiseForInsert(i + Offset, item);
         }
 
@@ -954,7 +954,7 @@ namespace C5
             if (ActiveEvents != 0)
             {
                 int index = Offset + i;
-                if ((ActiveEvents & (EventTypeEnum.Added | EventTypeEnum.Inserted)) != 0)
+                if ((ActiveEvents & (EventType.Added | EventType.Inserted)) != 0)
                     for (int j = index; j < index + added; j++)
                     {
 #warning must we check stamps here?
@@ -975,7 +975,7 @@ namespace C5
         {
             updatecheck();
             insert(0, startsentinel.next, item);
-            if (ActiveEvents != EventTypeEnum.None)
+            if (ActiveEvents != EventType.None)
                 (underlying ?? this).raiseForInsert(0 + Offset, item);
         }
 
@@ -987,7 +987,7 @@ namespace C5
         {
             updatecheck();
             insert(size, endsentinel, item);
-            if (ActiveEvents != EventTypeEnum.None)
+            if (ActiveEvents != EventType.None)
                 (underlying ?? this).raiseForInsert(size - 1 + Offset, item);
         }
 
@@ -1077,7 +1077,7 @@ namespace C5
 
             T item = remove(startsentinel.next, 0);
 
-            if (ActiveEvents != EventTypeEnum.None)
+            if (ActiveEvents != EventType.None)
                 (underlying ?? this).raiseForRemoveAt(Offset, item);
             return item;
         }
@@ -1095,7 +1095,7 @@ namespace C5
 
             T item = remove(endsentinel.prev, size - 1);
 
-            if (ActiveEvents != EventTypeEnum.None)
+            if (ActiveEvents != EventType.None)
                 (underlying ?? this).raiseForRemoveAt(size + Offset, item);
             return item;
         }
@@ -1662,7 +1662,7 @@ namespace C5
             updatecheck();
             T retval = remove(get(i), i);
 
-            if (ActiveEvents != EventTypeEnum.None)
+            if (ActiveEvents != EventType.None)
                 (underlying ?? this).raiseForRemoveAt(Offset + i, retval);
             return retval;
         }
@@ -1692,7 +1692,7 @@ namespace C5
                 underlying.size -= count;
 
             size -= count;
-            if (ActiveEvents != EventTypeEnum.None)
+            if (ActiveEvents != EventType.None)
                 (underlying ?? this).raiseForRemoveInterval(start + Offset, count);
         }
 

@@ -287,18 +287,18 @@ namespace C5
         /// <summary>
         /// 
         /// </summary>
-        public override EventTypeEnum ListenableEvents
+        public override EventType ListenableEvents
         {
             get
             {
-                return EventTypeEnum.Basic;
+                return EventType.Basic;
             }
         }
 
         /// <summary>
         /// 
         /// </summary>
-        public override EventTypeEnum ActiveEvents
+        public override EventType ActiveEvents
         {
             get
             {

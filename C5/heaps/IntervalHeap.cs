@@ -36,7 +36,7 @@ namespace C5
         /// 
         /// </summary>
         /// <value></value>
-        public override EventTypeEnum ListenableEvents { get { return EventTypeEnum.Basic; } }
+        public override EventType ListenableEvents { get { return EventType.Basic; } }
 
         #endregion
 
@@ -443,7 +443,7 @@ namespace C5
                 add(null, item);
             if (size != oldsize)
             {
-                if ((ActiveEvents & EventTypeEnum.Added) != 0)
+                if ((ActiveEvents & EventType.Added) != 0)
                     foreach (T item in items)
                         raiseItemsAdded(item, 1);
                 raiseCollectionChanged();

@@ -6,7 +6,7 @@ namespace C5
     /// Event types
     /// </summary>
     [Flags]
-    public enum EventTypeEnum
+    public enum EventType
     {
         /// <summary>
         /// None (0)

@@ -105,7 +105,7 @@ namespace C5
         /// 
         /// </summary>
         /// <value></value>
-        public override EventTypeEnum ListenableEvents { get { return EventTypeEnum.Basic; } }
+        public override EventType ListenableEvents { get { return EventType.Basic; } }
 
         #endregion
 
@@ -524,7 +524,7 @@ namespace C5
                 return;
 
             CircularQueue<T> wasRemoved = null;
-            if ((ActiveEvents & EventTypeEnum.Removed) != 0)
+            if ((ActiveEvents & EventType.Removed) != 0)
             {
                 wasRemoved = new CircularQueue<T>();
                 foreach (T item in this)
@@ -542,9 +542,9 @@ namespace C5
 
             _randomhashfactor = aux._randomhashfactor;
 
-            if ((ActiveEvents & EventTypeEnum.Removed) != 0)
+            if ((ActiveEvents & EventType.Removed) != 0)
                 raiseForRemoveAll(wasRemoved);
-            else if ((ActiveEvents & EventTypeEnum.Changed) != 0)
+            else if ((ActiveEvents & EventType.Changed) != 0)
                 raiseCollectionChanged();
         }
 
@@ -717,7 +717,7 @@ namespace C5
         {
             updatecheck();
             bool wasChanged = false;
-            bool raiseAdded = (ActiveEvents & EventTypeEnum.Added) != 0;
+            bool raiseAdded = (ActiveEvents & EventType.Added) != 0;
             CircularQueue<T> wasAdded = raiseAdded ? new CircularQueue<T>() : null;
             foreach (T item in items)
             {
@@ -734,7 +734,7 @@ namespace C5
             if (raiseAdded & wasChanged)
                 foreach (T item in wasAdded)
                     raiseItemsAdded(item, 1);
-            if (((ActiveEvents & EventTypeEnum.Changed) != 0 && wasChanged))
+            if (((ActiveEvents & EventType.Changed) != 0 && wasChanged))
                 raiseCollectionChanged();
         }
 

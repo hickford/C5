@@ -601,13 +601,13 @@ namespace C5
         /// No listeners may be installed
         /// </summary>
         /// <value>0</value>
-        public virtual EventTypeEnum ListenableEvents { get { return 0; } }
+        public virtual EventType ListenableEvents { get { return 0; } }
 
         /// <summary>
         /// No listeners ever installed
         /// </summary>
         /// <value>0</value>
-        public virtual EventTypeEnum ActiveEvents { get { return 0; } }
+        public virtual EventType ActiveEvents { get { return 0; } }
 
         /// <summary>
         /// 

@@ -198,13 +198,13 @@ namespace C5
         /// The ListenableEvents value of the wrapped collection
         /// </summary>
         /// <value></value>
-        public virtual EventTypeEnum ListenableEvents { get { return collectionvalue.ListenableEvents; } }
+        public virtual EventType ListenableEvents { get { return collectionvalue.ListenableEvents; } }
 
         /// <summary>
         /// The ActiveEvents value of the wrapped collection
         /// </summary>
         /// <value></value>
-        public virtual EventTypeEnum ActiveEvents { get { return collectionvalue.ActiveEvents; } }
+        public virtual EventType ActiveEvents { get { return collectionvalue.ActiveEvents; } }
 
         ProxyEventBlock<T> eventBlock;
         /// <summary>

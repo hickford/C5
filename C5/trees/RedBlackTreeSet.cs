@@ -72,7 +72,7 @@ namespace C5
         /// 
         /// </summary>
         /// <value></value>
-        public override EventTypeEnum ListenableEvents { get { return EventTypeEnum.Basic; } }
+        public override EventType ListenableEvents { get { return EventType.Basic; } }
 
         #endregion
         #region Util
@@ -878,7 +878,7 @@ namespace C5
             T j = default(T);
             bool tmp;
 
-            bool raiseAdded = (ActiveEvents & EventTypeEnum.Added) != 0;
+            bool raiseAdded = (ActiveEvents & EventType.Added) != 0;
             CircularQueue<T> wasAdded = raiseAdded ? new CircularQueue<T>() : null;
 
             foreach (T i in items)
@@ -896,7 +896,7 @@ namespace C5
             if (raiseAdded)
                 foreach (T item in wasAdded)
                     raiseItemsAdded(item, 1);
-            if (((ActiveEvents & EventTypeEnum.Changed) != 0))
+            if (((ActiveEvents & EventType.Changed) != 0))
                 raiseCollectionChanged();
         }
 
@@ -1025,7 +1025,7 @@ namespace C5
 
             if (raise)
             {
-                if ((ActiveEvents & EventTypeEnum.Added) != 0)
+                if ((ActiveEvents & EventType.Added) != 0)
                 {
                     CircularQueue<T> wasAdded = new CircularQueue<T>();
                     foreach (T item in this)
@@ -1033,7 +1033,7 @@ namespace C5
                     foreach (T item in wasAdded)
                         raiseItemsAdded(item, 1);
                 }
-                if ((ActiveEvents & EventTypeEnum.Changed) != 0)
+                if ((ActiveEvents & EventType.Changed) != 0)
                     raiseCollectionChanged();
             }
             return;
@@ -1660,9 +1660,9 @@ namespace C5
                 return;
             int oldsize = size;
             clear();
-            if ((ActiveEvents & EventTypeEnum.Cleared) != 0)
+            if ((ActiveEvents & EventType.Cleared) != 0)
                 raiseCollectionCleared(true, oldsize);
-            if ((ActiveEvents & EventTypeEnum.Changed) != 0)
+            if ((ActiveEvents & EventType.Changed) != 0)
                 raiseCollectionChanged();
         }
 
@@ -1688,7 +1688,7 @@ namespace C5
 
             T jtem;
 
-            bool mustRaise = (ActiveEvents & (EventTypeEnum.Removed | EventTypeEnum.Changed)) != 0;
+            bool mustRaise = (ActiveEvents & (EventType.Removed | EventType.Changed)) != 0;
             RaiseForRemoveAllHandler raiseHandler = mustRaise ? new RaiseForRemoveAllHandler(this) : null;
 
             foreach (T item in items)
@@ -1734,7 +1734,7 @@ namespace C5
 
 #warning improve (mainly for bag) by using a Node iterator instead of ItemMultiplicities()
             CircularQueue<KeyValuePair<T, int>> wasRemoved = null;
-            if ((ActiveEvents & EventTypeEnum.Removed) != 0)
+            if ((ActiveEvents & EventType.Removed) != 0)
             {
                 wasRemoved = new CircularQueue<KeyValuePair<T, int>>();
                 SCG.IEnumerator<KeyValuePair<T, int>> ie = ItemMultiplicities().GetEnumerator();
@@ -1762,7 +1762,7 @@ namespace C5
             if (wasRemoved != null)
                 foreach (KeyValuePair<T, int> p in wasRemoved)
                     raiseItemsRemoved(p.Key, p.Value);
-            if ((ActiveEvents & EventTypeEnum.Changed) != 0)
+            if ((ActiveEvents & EventType.Changed) != 0)
                 raiseCollectionChanged();
         }
 
@@ -2184,9 +2184,9 @@ namespace C5
             for (int i = 0; i < count; i++)
                 removeAt(start);
 
-            if ((ActiveEvents & EventTypeEnum.Cleared) != 0)
+            if ((ActiveEvents & EventType.Cleared) != 0)
                 raiseCollectionCleared(false, count);
-            if ((ActiveEvents & EventTypeEnum.Changed) != 0)
+            if ((ActiveEvents & EventType.Changed) != 0)
                 raiseCollectionChanged();
         }
 
@@ -3040,7 +3040,7 @@ namespace C5
                 return;
 
             stackcheck();
-            CircularQueue<T> wasRemoved = (ActiveEvents & EventTypeEnum.Removed) != 0 ? new CircularQueue<T>() : null;
+            CircularQueue<T> wasRemoved = (ActiveEvents & EventType.Removed) != 0 ? new CircularQueue<T>() : null;
 
             for (int i = 0; i < count; i++)
             {
@@ -3050,7 +3050,7 @@ namespace C5
             }
             if (wasRemoved != null)
                 raiseForRemoveAll(wasRemoved);
-            else if ((ActiveEvents & EventTypeEnum.Changed) != 0)
+            else if ((ActiveEvents & EventType.Changed) != 0)
                 raiseCollectionChanged();
         }
 
@@ -3071,7 +3071,7 @@ namespace C5
             if (count == 0)
                 return;
 
-            CircularQueue<T> wasRemoved = (ActiveEvents & EventTypeEnum.Removed) != 0 ? new CircularQueue<T>() : null;
+            CircularQueue<T> wasRemoved = (ActiveEvents & EventType.Removed) != 0 ? new CircularQueue<T>() : null;
             int junk;
             for (int i = 0; i < count; i++)
             {
@@ -3082,7 +3082,7 @@ namespace C5
             }
             if (wasRemoved != null)
                 raiseForRemoveAll(wasRemoved);
-            else if ((ActiveEvents & EventTypeEnum.Changed) != 0)
+            else if ((ActiveEvents & EventType.Changed) != 0)
                 raiseCollectionChanged();
         }
 
@@ -3103,7 +3103,7 @@ namespace C5
                 return;
 
             stackcheck();
-            CircularQueue<T> wasRemoved = (ActiveEvents & EventTypeEnum.Removed) != 0 ? new CircularQueue<T>() : null;
+            CircularQueue<T> wasRemoved = (ActiveEvents & EventType.Removed) != 0 ? new CircularQueue<T>() : null;
 
             for (int i = 0; i < count; i++)
             {
@@ -3113,7 +3113,7 @@ namespace C5
             }
             if (wasRemoved != null)
                 raiseForRemoveAll(wasRemoved);
-            else if ((ActiveEvents & EventTypeEnum.Changed) != 0)
+            else if ((ActiveEvents & EventType.Changed) != 0)
                 raiseCollectionChanged();
         }
 

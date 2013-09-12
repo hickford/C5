@@ -29,7 +29,7 @@ namespace C5
     /// <typeparam name="T"></typeparam>
     internal sealed class EventBlock<T>
     {
-        internal EventTypeEnum events;
+        internal EventType events;
 
         event CollectionChangedHandler<T> collectionChanged;
         internal event CollectionChangedHandler<T> CollectionChanged
@@ -37,13 +37,13 @@ namespace C5
             add
             {
                 collectionChanged += value;
-                events |= EventTypeEnum.Changed;
+                events |= EventType.Changed;
             }
             remove
             {
                 collectionChanged -= value;
                 if (collectionChanged == null)
-                    events &= ~EventTypeEnum.Changed;
+                    events &= ~EventType.Changed;
             }
         }
         internal void raiseCollectionChanged(object sender)
@@ -55,13 +55,13 @@ namespace C5
             add
             {
                 collectionCleared += value;
-                events |= EventTypeEnum.Cleared;
+                events |= EventType.Cleared;
             }
             remove
             {
                 collectionCleared -= value;
                 if (collectionCleared == null)
-                    events &= ~EventTypeEnum.Cleared;
+                    events &= ~EventType.Cleared;
             }
         }
         internal void raiseCollectionCleared(object sender, bool full, int count)
@@ -75,13 +75,13 @@ namespace C5
             add
             {
                 itemsAdded += value;
-                events |= EventTypeEnum.Added;
+                events |= EventType.Added;
             }
             remove
             {
                 itemsAdded -= value;
                 if (itemsAdded == null)
-                    events &= ~EventTypeEnum.Added;
+                    events &= ~EventType.Added;
             }
         }
         internal void raiseItemsAdded(object sender, T item, int count)
@@ -93,13 +93,13 @@ namespace C5
             add
             {
                 itemsRemoved += value;
-                events |= EventTypeEnum.Removed;
+                events |= EventType.Removed;
             }
             remove
             {
                 itemsRemoved -= value;
                 if (itemsRemoved == null)
-                    events &= ~EventTypeEnum.Removed;
+                    events &= ~EventType.Removed;
             }
         }
         internal void raiseItemsRemoved(object sender, T item, int count)
@@ -111,13 +111,13 @@ namespace C5
             add
             {
                 itemInserted += value;
-                events |= EventTypeEnum.Inserted;
+                events |= EventType.Inserted;
             }
             remove
             {
                 itemInserted -= value;
                 if (itemInserted == null)
-                    events &= ~EventTypeEnum.Inserted;
+                    events &= ~EventType.Inserted;
             }
         }
         internal void raiseItemInserted(object sender, T item, int index)
@@ -129,13 +129,13 @@ namespace C5
             add
             {
                 itemRemovedAt += value;
-                events |= EventTypeEnum.RemovedAt;
+                events |= EventType.RemovedAt;
             }
             remove
             {
                 itemRemovedAt -= value;
                 if (itemRemovedAt == null)
-                    events &= ~EventTypeEnum.RemovedAt;
+                    events &= ~EventType.RemovedAt;
             }
         }
         internal void raiseItemRemovedAt(object sender, T item, int index)

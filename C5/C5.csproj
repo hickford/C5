@@ -81,7 +81,7 @@
     <Compile Include="Dictionaries.cs" />
     <Compile Include="enums\EnumerationDirection.cs" />
     <Compile Include="Events.cs" />
-    <Compile Include="enums\EventTypeEnum.cs" />
+    <Compile Include="enums\EventType.cs" />
     <Compile Include="Exceptions.cs" />
     <Compile Include="Formatting.cs" />
     <Compile Include="Hashers.cs" />

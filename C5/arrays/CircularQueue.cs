@@ -52,7 +52,7 @@ namespace C5
         /// 
         /// </summary>
         /// <value></value>
-        public override EventTypeEnum ListenableEvents { get { return EventTypeEnum.Basic; } }
+        public override EventType ListenableEvents { get { return EventType.Basic; } }
 
         #endregion
 

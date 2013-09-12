@@ -76,15 +76,15 @@ namespace C5
         /// 
         /// </summary>
         /// <value></value>
-        public virtual EventTypeEnum ListenableEvents { get { return 0; } }
+        public virtual EventType ListenableEvents { get { return 0; } }
 
         /// <summary>
         /// A flag bitmap of the events currently subscribed to by this collection.
         /// </summary>
         /// <value></value>
-        public virtual EventTypeEnum ActiveEvents { get { return eventBlock == null ? 0 : eventBlock.events; } }
+        public virtual EventType ActiveEvents { get { return eventBlock == null ? 0 : eventBlock.events; } }
 
-        private void checkWillListen(EventTypeEnum eventType)
+        private void checkWillListen(EventType eventType)
         {
             if ((ListenableEvents & eventType) == 0)
                 throw new UnlistenableEventException();
@@ -95,10 +95,10 @@ namespace C5
         /// </summary>
         public virtual event CollectionChangedHandler<T> CollectionChanged
         {
-            add { checkWillListen(EventTypeEnum.Changed); (eventBlock ?? (eventBlock = new EventBlock<T>())).CollectionChanged += value; }
+            add { checkWillListen(EventType.Changed); (eventBlock ?? (eventBlock = new EventBlock<T>())).CollectionChanged += value; }
             remove
             {
-                checkWillListen(EventTypeEnum.Changed);
+                checkWillListen(EventType.Changed);
                 if (eventBlock != null)
                 {
                     eventBlock.CollectionChanged -= value;
@@ -117,10 +117,10 @@ namespace C5
         /// </summary>
         public virtual event CollectionClearedHandler<T> CollectionCleared
         {
-            add { checkWillListen(EventTypeEnum.Cleared); (eventBlock ?? (eventBlock = new EventBlock<T>())).CollectionCleared += value; }
+            add { checkWillListen(EventType.Cleared); (eventBlock ?? (eventBlock = new EventBlock<T>())).CollectionCleared += value; }
             remove
             {
-                checkWillListen(EventTypeEnum.Cleared);
+                checkWillListen(EventType.Cleared);
                 if (eventBlock != null)
                 {
                     eventBlock.CollectionCleared -= value;
@@ -145,10 +145,10 @@ namespace C5
         /// </summary>
         public virtual event ItemsAddedHandler<T> ItemsAdded
         {
-            add { checkWillListen(EventTypeEnum.Added); (eventBlock ?? (eventBlock = new EventBlock<T>())).ItemsAdded += value; }
+            add { checkWillListen(EventType.Added); (eventBlock ?? (eventBlock = new EventBlock<T>())).ItemsAdded += value; }
             remove
             {
-                checkWillListen(EventTypeEnum.Added);
+                checkWillListen(EventType.Added);
                 if (eventBlock != null)
                 {
                     eventBlock.ItemsAdded -= value;
@@ -169,10 +169,10 @@ namespace C5
         /// </summary>
         public virtual event ItemsRemovedHandler<T> ItemsRemoved
         {
-            add { checkWillListen(EventTypeEnum.Removed); (eventBlock ?? (eventBlock = new EventBlock<T>())).ItemsRemoved += value; }
+            add { checkWillListen(EventType.Removed); (eventBlock ?? (eventBlock = new EventBlock<T>())).ItemsRemoved += value; }
             remove
             {
-                checkWillListen(EventTypeEnum.Removed);
+                checkWillListen(EventType.Removed);
                 if (eventBlock != null)
                 {
                     eventBlock.ItemsRemoved -= value;
@@ -193,10 +193,10 @@ namespace C5
         /// </summary>
         public virtual event ItemInsertedHandler<T> ItemInserted
         {
-            add { checkWillListen(EventTypeEnum.Inserted); (eventBlock ?? (eventBlock = new EventBlock<T>())).ItemInserted += value; }
+            add { checkWillListen(EventType.Inserted); (eventBlock ?? (eventBlock = new EventBlock<T>())).ItemInserted += value; }
             remove
             {
-                checkWillListen(EventTypeEnum.Inserted);
+                checkWillListen(EventType.Inserted);
                 if (eventBlock != null)
                 {
                     eventBlock.ItemInserted -= value;
@@ -217,10 +217,10 @@ namespace C5
         /// </summary>
         public virtual event ItemRemovedAtHandler<T> ItemRemovedAt
         {
-            add { checkWillListen(EventTypeEnum.RemovedAt); (eventBlock ?? (eventBlock = new EventBlock<T>())).ItemRemovedAt += value; }
+            add { checkWillListen(EventType.RemovedAt); (eventBlock ?? (eventBlock = new EventBlock<T>())).ItemRemovedAt += value; }
             remove
             {
-                checkWillListen(EventTypeEnum.RemovedAt);
+                checkWillListen(EventType.RemovedAt);
                 if (eventBlock != null)
                 {
                     eventBlock.ItemRemovedAt -= value;
@@ -361,7 +361,7 @@ namespace C5
         /// <param name="wasRemoved"></param>
         protected virtual void raiseForRemoveAll(ICollectionValue<T> wasRemoved)
         {
-            if ((ActiveEvents & EventTypeEnum.Removed) != 0)
+            if ((ActiveEvents & EventType.Removed) != 0)
                 foreach (T item in wasRemoved)
                     raiseItemsRemoved(item, 1);
             if (wasRemoved != null && wasRemoved.Count > 0)
@@ -384,8 +384,8 @@ namespace C5
             public RaiseForRemoveAllHandler(CollectionValueBase<T> collection)
             {
                 this.collection = collection;
-                mustFireRemoved = (collection.ActiveEvents & EventTypeEnum.Removed) != 0;
-                MustFire = (collection.ActiveEvents & (EventTypeEnum.Removed | EventTypeEnum.Changed)) != 0;
+                mustFireRemoved = (collection.ActiveEvents & EventType.Removed) != 0;
+                MustFire = (collection.ActiveEvents & (EventType.Removed | EventType.Changed)) != 0;
             }
 
             bool mustFireRemoved;

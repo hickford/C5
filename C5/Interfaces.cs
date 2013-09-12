@@ -58,13 +58,13 @@ namespace C5
         /// A flag bitmap of the events subscribable to by this collection.
         /// </summary>
         /// <value></value>
-        EventTypeEnum ListenableEvents { get; }
+        EventType ListenableEvents { get; }
 
         /// <summary>
         /// A flag bitmap of the events currently subscribed to by this collection.
         /// </summary>
         /// <value></value>
-        EventTypeEnum ActiveEvents { get; }
+        EventType ActiveEvents { get; }
 
         /// <summary>
         /// The change event. Will be raised for every change operation on the collection.
