@@ -252,7 +252,7 @@ namespace C5
         /// <summary>
         /// Check if it is valid to perform updates and increment stamp if so.
         /// </summary>
-        /// <exception cref="ViewDisposedException"> If check fails by this list being a disposed view.</exception>
+        /// <exception cref="ObjectDisposedException"> If check fails by this list being a disposed view.</exception>
         /// <exception cref="ReadOnlyCollectionException"> If check fails by this being a read only list.</exception>
         protected override void updatecheck()
         {
@@ -268,11 +268,11 @@ namespace C5
         /// <para>This method should be called from enumerators etc to guard against 
         /// modification of the base collection.</para>
         /// </summary>
-        /// <exception cref="ViewDisposedException"> if check fails.</exception>
+        /// <exception cref="ObjectDisposedException"> if check fails.</exception>
         void validitycheck()
         {
             if (!isValid)
-                throw new ViewDisposedException();
+                throw new ObjectDisposedException("View has been disposed");
         }
 
 
@@ -280,7 +280,7 @@ namespace C5
         /// Check that the list has not been updated since a particular time.
         /// <para>To be used by enumerators and range </para>
         /// </summary>
-        /// <exception cref="ViewDisposedException"> If check fails by this list being a disposed view.</exception>
+        /// <exception cref="ObjectDisposedException"> If check fails by this list being a disposed view.</exception>
         /// <exception cref="CollectionModifiedException">If the list *has* beeen updated since that  time..</exception>
         /// <param name="stamp">The stamp indicating the time.</param>
         protected override void modifycheck(int stamp)

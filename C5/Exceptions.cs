@@ -100,7 +100,7 @@ namespace C5
     }
 
     /// <summary>
-    /// An excption thrown when trying to access a view (a list view on a <see cref="T:C5.IList`1"/> or 
+    /// An exception thrown when trying to access a view (a list view on a <see cref="T:C5.IList`1"/> or 
     /// a snapshot on a <see cref="T:C5.IPersistentSorted`1"/>)
     /// that has been invalidated by some earlier operation.
     /// <para>
@@ -108,6 +108,7 @@ namespace C5
     /// Sort, Reverse or Shuffle on some other, overlapping view or the whole list.
     /// </para>
     /// </summary>
+    [Obsolete("No longer used - replaced by System.ObjectDisposedException")]
     public class ViewDisposedException : Exception
     {
         /// <summary>

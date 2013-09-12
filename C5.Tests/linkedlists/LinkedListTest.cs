@@ -2477,7 +2477,7 @@ namespace C5UnitTests.linkedlists.plain
                             {
                                 k = views[i][j].Count;
                             }
-                            catch (ViewDisposedException)
+                            catch (ObjectDisposedException)
                             {
                                 Assert.Fail("view[" + i + "][" + j + "] threw");
                             }
@@ -2494,7 +2494,7 @@ namespace C5UnitTests.linkedlists.plain
                                 k = views[i][j].Count;
                                 Assert.Fail("view[" + i + "][" + j + "] no throw");
                             }
-                            catch (ViewDisposedException) { }
+                            catch (ObjectDisposedException) { }
                         }
                     }
             }
@@ -2578,116 +2578,116 @@ namespace C5UnitTests.linkedlists.plain
       Underlying
       */
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void Add()
             {
                 view.Add(5);
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void AddAll_int_()
             {
                 view.AddAll(new int[] { });
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void AddAll()
             {
                 view.AddAll(new int[] { });
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void All()
             {
                 view.All(delegate(int i) { return false; });
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void Apply()
             {
                 view.Apply(delegate(int i) { });
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void Backwards()
             {
                 view.Backwards();
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void Choose()
             {
                 view.Choose();
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void Contains()
             {
                 view.Contains(0);
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void Clear()
             {
                 view.Clear();
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void ContainsAll()
             {
                 view.ContainsAll(new int[] { });
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void ContainsCount()
             {
                 view.ContainsCount(0);
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void CopyTo()
             {
                 view.CopyTo(new int[1], 0);
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void Dequeue()
             {
                 ((LinkedList<int>)view).Dequeue();
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void Enqueue()
             {
                 ((LinkedList<int>)view).Enqueue(0);
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void Exists()
             {
                 view.Exists(delegate(int i) { return false; });
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void Filter()
             {
                 view.Filter(delegate(int i) { return true; });
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void Find()
             {
                 int i = 0;
                 view.Find(ref i);
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void FindAll()
             {
                 view.FindAll(delegate(int i) { return false; });
             }
             [Test]
-            [ExpectedException(typeof(ViewDisposedException))]
+            [ExpectedException(typeof(ObjectDisposedException))]
             public void FindOrAdd()
             {
                 int i = 0;

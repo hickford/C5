@@ -2430,7 +2430,7 @@ namespace C5UnitTests.linkedlists.hashed
                             {
                                 k = views[i][j].Count;
                             }
-                            catch (ViewDisposedException)
+                            catch (ObjectDisposedException)
                             {
                                 Assert.Fail("view[" + i + "][" + j + "] threw");
                             }
@@ -2447,7 +2447,7 @@ namespace C5UnitTests.linkedlists.hashed
                                 k = views[i][j].Count;
                                 Assert.Fail("view[" + i + "][" + j + "] no throw");
                             }
-                            catch (ViewDisposedException) { }
+                            catch (ObjectDisposedException) { }
                         }
                     }
             }

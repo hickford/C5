@@ -580,7 +580,7 @@ namespace C5
         public override T Choose()
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
 
             if (size == 0)
                 throw new NoSuchItemException();
@@ -595,7 +595,7 @@ namespace C5
         public override SCG.IEnumerator<T> GetEnumerator()
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
 
             if (isSnapShot)
                 return new SnapEnumerator(this);
@@ -848,7 +848,7 @@ namespace C5
         public bool Add(T item)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
 
             //Note: blackdepth of the tree is set inside addIterative
@@ -896,7 +896,7 @@ namespace C5
         public void AddAll(SCG.IEnumerable<T> items)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
 
             int c = 0;
@@ -941,7 +941,7 @@ namespace C5
             else
             {
                 if (!isValid)
-                    throw new ViewDisposedException("Snapshot has been disposed");
+                    throw new ObjectDisposedException("Snapshot has been disposed");
                 updatecheck();
                 addSorted(items, true, true);
             }
@@ -1116,7 +1116,7 @@ namespace C5
         public bool Contains(T item)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             Node next; int comp = 0;
 
             next = root;
@@ -1145,7 +1145,7 @@ namespace C5
         public bool Find(ref T item)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             Node next; int comp = 0;
 
             next = root;
@@ -1176,7 +1176,7 @@ namespace C5
         public bool FindOrAdd(ref T item)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
             bool wasfound;
 
@@ -1224,7 +1224,7 @@ namespace C5
         public bool Update(T item, out T olditem)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
             stackcheck();
 
@@ -1291,7 +1291,7 @@ namespace C5
         public bool UpdateOrAdd(T item, out T olditem)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
             bool wasfound;
             olditem = default(T);
@@ -1324,7 +1324,7 @@ namespace C5
         public bool Remove(T item)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
             if (root == null)
                 return false;
@@ -1349,7 +1349,7 @@ namespace C5
         public bool Remove(T item, out T removeditem)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
             removeditem = item;
             if (root == null)
@@ -1735,7 +1735,7 @@ namespace C5
         public void Clear()
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
             if (size == 0)
                 return;
@@ -1764,7 +1764,7 @@ namespace C5
         public void RemoveAll(SCG.IEnumerable<T> items)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
 
             T jtem;
@@ -1794,7 +1794,7 @@ namespace C5
         public void RetainAll(SCG.IEnumerable<T> items)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
 
             //A much more efficient version is possible if items is sorted like this.
@@ -1863,7 +1863,7 @@ namespace C5
         {
             //TODO: fix bag implementation
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             //This is worst-case O(m*logn)
             foreach (T item in items)
                 if (!Contains(item)) return false;
@@ -1882,7 +1882,7 @@ namespace C5
         public IIndexedSorted<T> FindAll(Func<T, bool> filter)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             TreeBag<T> res = new TreeBag<T>(comparer);
             SCG.IEnumerator<T> e = GetEnumerator();
             Node head = null, tail = null;
@@ -1961,7 +1961,7 @@ namespace C5
         public IIndexedSorted<V> Map<V>(Func<T, V> mapper, SCG.IComparer<V> c)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             TreeBag<V> res = new TreeBag<V>(c);
 
             if (size == 0)
@@ -2048,7 +2048,7 @@ namespace C5
         public int ContainsCount(T item)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
 
             Node next; int comp = 0;
 
@@ -2121,7 +2121,7 @@ namespace C5
         public virtual ICollectionValue<T> UniqueItems()
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
 
             return new DropMultiplicity<T>(ItemMultiplicities());
 
@@ -2135,7 +2135,7 @@ namespace C5
         public virtual ICollectionValue<KeyValuePair<T, int>> ItemMultiplicities()
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
 
             return new Multiplicities(this);
 
@@ -2149,7 +2149,7 @@ namespace C5
         {
 
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
             int removed;
             if (removeIterative(ref item, true, out removed) && ActiveEvents != 0)
@@ -2222,7 +2222,7 @@ namespace C5
         public int IndexOf(T item)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             int upper;
             return indexOf(item, out upper);
         }
@@ -2277,7 +2277,7 @@ namespace C5
         public int LastIndexOf(T item)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
 
             int res;
             indexOf(item, out res);
@@ -2296,7 +2296,7 @@ namespace C5
         public T RemoveAt(int i)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
             T retval = removeAt(i);
             if (ActiveEvents != 0)
@@ -2307,7 +2307,7 @@ namespace C5
         T removeAt(int i)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
 
             if (i < 0 || i >= size)
@@ -2389,7 +2389,7 @@ namespace C5
         public void RemoveInterval(int start, int count)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             if (start < 0 || count < 0 || start + count > this.size)
                 throw new ArgumentOutOfRangeException();
 
@@ -2645,7 +2645,7 @@ namespace C5
         public T FindMin()
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             if (size == 0)
                 throw new NoSuchItemException();
             Node cursor = root, next = left(cursor);
@@ -2667,7 +2667,7 @@ namespace C5
         public T DeleteMin()
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
 
             //persistence guard?
@@ -2720,7 +2720,7 @@ namespace C5
         public T FindMax()
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             if (size == 0)
                 throw new NoSuchItemException();
 
@@ -2743,7 +2743,7 @@ namespace C5
         public T DeleteMax()
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             //persistence guard?
             updatecheck();
             if (size == 0)
@@ -2800,7 +2800,7 @@ namespace C5
         public bool TryPredecessor(T item, out T res)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             Node cursor = root, bestsofar = null;
 
             while (cursor != null)
@@ -2847,7 +2847,7 @@ namespace C5
         public bool TrySuccessor(T item, out T res)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             Node cursor = root, bestsofar = null;
 
             while (cursor != null)
@@ -2895,7 +2895,7 @@ namespace C5
         public bool TryWeakPredecessor(T item, out T res)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             Node cursor = root, bestsofar = null;
 
             while (cursor != null)
@@ -2938,7 +2938,7 @@ namespace C5
         public bool TryWeakSuccessor(T item, out T res)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             Node cursor = root, bestsofar = null;
 
             while (cursor != null)
@@ -3052,7 +3052,7 @@ namespace C5
         public IDirectedCollectionValue<T> RangeFrom(T bot)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             return new Range(this, true, bot, false, default(T), EnumerationDirection.Forwards);
         }
 
@@ -3066,7 +3066,7 @@ namespace C5
         public IDirectedCollectionValue<T> RangeFromTo(T bot, T top)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             return new Range(this, true, bot, true, top, EnumerationDirection.Forwards);
         }
 
@@ -3079,7 +3079,7 @@ namespace C5
         public IDirectedCollectionValue<T> RangeTo(T top)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             return new Range(this, false, default(T), true, top, EnumerationDirection.Forwards);
         }
 
@@ -3091,7 +3091,7 @@ namespace C5
         public IDirectedCollectionValue<T> RangeAll()
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             return new Range(this, false, default(T), false, default(T), EnumerationDirection.Forwards);
         }
 
@@ -3161,7 +3161,7 @@ namespace C5
         public bool Cut(IComparable<T> c, out T low, out bool lowIsValid, out T high, out bool highIsValid)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             Node cursor = root, lbest = null, rbest = null;
             bool res = false;
 
@@ -3250,7 +3250,7 @@ namespace C5
         public int CountFrom(T bot)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             return size - countTo(bot, true);
         }
 
@@ -3264,7 +3264,7 @@ namespace C5
         public int CountFromTo(T bot, T top)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             if (comparer.Compare(bot, top) >= 0)
                 return 0;
 
@@ -3280,7 +3280,7 @@ namespace C5
         public int CountTo(T top)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             return countTo(top, true);
         }
 
@@ -3292,7 +3292,7 @@ namespace C5
         public void RemoveRangeFrom(T low)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
 
             int count = CountFrom(low);
@@ -3324,7 +3324,7 @@ namespace C5
         public void RemoveRangeFromTo(T low, T hi)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
 
             int count = CountFromTo(low, hi);
@@ -3355,7 +3355,7 @@ namespace C5
         public void RemoveRangeTo(T hi)
         {
             if (!isValid)
-                throw new ViewDisposedException("Snapshot has been disposed");
+                throw new ObjectDisposedException("Snapshot has been disposed");
             updatecheck();
 
             int count = CountTo(hi);

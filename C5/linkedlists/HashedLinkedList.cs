@@ -122,11 +122,11 @@ namespace C5
         /// This method should be called from enumerators etc to guard against 
         /// modification of the base collection.
         /// </summary>
-        /// <exception cref="InvalidOperationException"> if check fails.</exception>
+        /// <exception cref="ObjectDisposedException"> if check fails.</exception>
         void validitycheck()
         {
             if (!isValid)
-                throw new ViewDisposedException();
+                throw new ObjectDisposedException("View has been disposed");
         }
 
         /// <summary>
